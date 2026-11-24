@@ -1,0 +1,261 @@
+{
+  "format_version": 1,
+  "synthetic": true,
+  "encoding": "UTF-8",
+  "tables": {
+    "experiments": {
+      "description": "业务方登记的说明试用计划",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "exclusive_scope": {
+          "type": "string",
+          "description": "不能同时试用的家庭范围标识"
+        },
+        "start_at": {
+          "type": "string",
+          "description": "开始允许入组时点"
+        },
+        "end_at": {
+          "type": "string",
+          "description": "最长收集结束时点"
+        },
+        "followup_hours": {
+          "type": "number",
+          "description": "从机会形成起的答卷观察小时"
+        },
+        "minimum_gain": {
+          "type": "number",
+          "description": "正确理解比例的最低实际增益"
+        },
+        "maximum_false_certainty": {
+          "type": "number",
+          "description": "错误确信比例上限"
+        },
+        "look_policy": {
+          "type": "string",
+          "description": "事前批准的查看方式"
+        },
+        "arms": {
+          "type": "array",
+          "description": "候选说明编号"
+        }
+      },
+      "references": {}
+    },
+    "households": {
+      "description": "家庭及设备的合资格登记",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "segment": {
+          "type": "string",
+          "description": "自主登记的需求人群"
+        },
+        "region": {
+          "type": "string",
+          "description": "可用渠道地区"
+        },
+        "devices": {
+          "type": "array",
+          "description": "属于同一合资格家庭的设备键"
+        },
+        "eligible_from": {
+          "type": "string",
+          "description": "允许参与的最早时间"
+        }
+      },
+      "references": {}
+    },
+    "assignments": {
+      "description": "渠道历史形成的分配事实；概率缺失保留原貌",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "household_id": {
+          "type": "string",
+          "description": "家庭编号"
+        },
+        "experiment_id": {
+          "type": "string",
+          "description": "试用计划编号"
+        },
+        "opportunity_at": {
+          "type": "string",
+          "description": "展示前形成机会的时间"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "记录首次可用的时间"
+        },
+        "arm": {
+          "type": "string",
+          "description": "原分配说明编号"
+        },
+        "probability": {
+          "type": "nullable_number",
+          "description": "该次实际分配到该说明的概率"
+        },
+        "policy_id": {
+          "type": "string",
+          "description": "分流政策版本"
+        },
+        "request_key": {
+          "type": "string",
+          "description": "渠道请求重复识别键"
+        },
+        "device": {
+          "type": "string",
+          "description": "当次设备键"
+        }
+      },
+      "references": {
+        "household_id": "households",
+        "experiment_id": "experiments"
+      }
+    },
+    "displays": {
+      "description": "实际显示的渠道回执",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "assignment_id": {
+          "type": "string",
+          "description": "对应分配"
+        },
+        "occurred_at": {
+          "type": "string",
+          "description": "渠道动作时间"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "回执可知时间"
+        },
+        "channel": {
+          "type": "string",
+          "description": "实际渠道"
+        },
+        "status": {
+          "type": "string",
+          "description": "displayed表示已显示；unknown表示结果不明"
+        }
+      },
+      "references": {
+        "assignment_id": "assignments"
+      }
+    },
+    "answers": {
+      "description": "延迟返回的理解问答",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "assignment_id": {
+          "type": "string",
+          "description": "问答对应的原分配"
+        },
+        "answered_at": {
+          "type": "string",
+          "description": "作答时点"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "答卷被收到的时点"
+        },
+        "correct": {
+          "type": "boolean",
+          "description": "是否正确区分两个概念"
+        },
+        "false_certainty": {
+          "type": "boolean",
+          "description": "错误且确信的原始答卷编码"
+        },
+        "revision": {
+          "type": "number",
+          "description": "同一答卷的修订序号"
+        }
+      },
+      "references": {
+        "assignment_id": "assignments"
+      }
+    },
+    "decisions": {
+      "description": "人工登记的范围控制和渠道接管回执",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "experiment_id": {
+          "type": "string",
+          "description": "试用计划"
+        },
+        "scope": {
+          "type": "string",
+          "description": "人群及渠道适用范围"
+        },
+        "kind": {
+          "type": "string",
+          "description": "risk_stop、promote_request、takeover_ack或permit_revoke_ack"
+        },
+        "at": {
+          "type": "string",
+          "description": "事实生效时间"
+        },
+        "known_at": {
+          "type": "string",
+          "description": "被项目知道的时间"
+        },
+        "reference": {
+          "type": "string",
+          "description": "被回复的业务决定编号；空串表示原始决定"
+        }
+      },
+      "references": {
+        "experiment_id": "experiments"
+      }
+    },
+    "access_requests": {
+      "description": "渠道随后提交的访问请求；未附分配答案",
+      "fields": {
+        "id": {
+          "type": "string",
+          "description": "记录的稳定编号"
+        },
+        "household_id": {
+          "type": "string",
+          "description": "家庭"
+        },
+        "experiment_id": {
+          "type": "string",
+          "description": "申请试用计划"
+        },
+        "request_key": {
+          "type": "string",
+          "description": "原请求重复识别键"
+        },
+        "at": {
+          "type": "string",
+          "description": "请求到达时间"
+        },
+        "channel": {
+          "type": "string",
+          "description": "渠道"
+        }
+      },
+      "references": {
+        "household_id": "households",
+        "experiment_id": "experiments"
+      }
+    }
+  }
+}

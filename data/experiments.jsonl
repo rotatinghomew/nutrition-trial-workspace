@@ -1,0 +1,2 @@
+{"id":"ex-a","exclusive_scope":"consumer-label","start_at":"2026-01-01T00:00:00+08:00","end_at":"2026-02-20T00:00:00+08:00","followup_hours":72,"minimum_gain":0.04,"maximum_false_certainty":0.12,"look_policy":"持续查看","arms":["plain","explain","compare"]}
+{"id":"ex-b","exclusive_scope":"consumer-label","start_at":"2026-01-19T00:00:00+08:00","end_at":"2026-03-07T00:00:00+08:00","followup_hours":72,"minimum_gain":0.03,"maximum_false_certainty":0.1,"look_policy":"登记日期查看","arms":["plain","detail"]}
